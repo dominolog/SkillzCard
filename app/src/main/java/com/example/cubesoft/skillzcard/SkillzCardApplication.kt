@@ -1,5 +1,6 @@
 package com.example.cubesoft.skillzcard
 
+import android.app.Activity
 import android.app.Application
 
 import com.example.cubesoft.skillzcard.api.ExampleWebService
@@ -10,11 +11,22 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Inject
 
 /**
  * Created by cubesoft on 06.02.18.
  */
-class SkillzCardApplication : Application() {
+class SkillzCardApplication : Application(), HasActivityInjector {
+
+    @Inject lateinit var activityInjector: DispatchingAndroidInjector<Activity>
+
+
+    val component: AppComponent by lazy {
+        DaggerAppComponent
+                .builder()
+                .appModule(AppModule(this))
+                .build()
+    }
 
     companion object {
         fun create(): ExampleWebService {
@@ -43,7 +55,7 @@ class SkillzCardApplication : Application() {
     @Override
     public override fun onCreate() {
         super.onCreate()
-
+        component.inject(this);
         beginLogin("aaa", "bb");
 
     }
