@@ -15,4 +15,9 @@
     </string>
     <string name="title_activity_popup">PopupActivity</string>
     <string name="action_popup">PopUp</string>
+
+    <string-array name="units">
+        <item>EU</item>
+        <item>US</item>
+    </string-array>
 </resources>
