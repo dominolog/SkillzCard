@@ -15,4 +15,9 @@ interface ExampleWebService {
                       @Query("password") password: String):
             Observable<Model.LoginResult>
 
+
+    @POST("popup")
+    public fun popup(@Query("values") email: List<String>):
+            Observable<Model.PopupResult>
+
 }

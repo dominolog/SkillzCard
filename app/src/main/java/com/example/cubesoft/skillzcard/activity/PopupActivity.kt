@@ -12,16 +12,26 @@ import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import com.example.cubesoft.skillzcard.R
 import com.example.cubesoft.skillzcard.SkillzCardApplication
+import com.example.cubesoft.skillzcard.api.ExampleWebService
+import com.example.cubesoft.skillzcard.model.Model
 import com.example.cubesoft.skillzcard.model.PopupDefinition
 import com.google.gson.Gson
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.functions.Action
+import io.reactivex.functions.Consumer
+import io.reactivex.schedulers.Schedulers
 
 import kotlinx.android.synthetic.main.activity_popup.*
 import java.io.IOException
 import java.io.InputStream
 import java.io.InputStreamReader
 import java.io.UnsupportedEncodingException
+import javax.inject.Inject
 
-class PopupActivity : AppCompatActivity(), OnItemSelectedListener {
+class PopupActivity : BaseActivity(), OnItemSelectedListener {
+
+    @Inject
+    lateinit var webService: ExampleWebService
 
     private var popDef: PopupDefinition? = null
 
@@ -45,8 +55,27 @@ class PopupActivity : AppCompatActivity(), OnItemSelectedListener {
 
     private fun onSave() {
 
+        doSave();
 
     }
+
+    private fun doSave(values: List<String> ) {
+        subscribe(webService.popup(values)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe({ showProgress(true) })
+                .doOnDispose({ showProgress(false) })
+                .subscribe(Consumer<Model.PopupResult>{
+
+                }, Consumer {
+
+                }, Action {
+
+                }));
+
+    }
+
+    private fun showProgress(show: Boolean) {}
 
     override fun onItemSelected(view: AdapterView<*>, arg1: View, position: Int, id: Long) {
         // use position to know the selected item

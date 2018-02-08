@@ -26,12 +26,11 @@ import javax.inject.Inject
 /**
  * A login screen that offers login via email/password.
  */
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : BaseActivity() {
 
     @Inject
     lateinit var webService: ExampleWebService
 
-    var disposables: CompositeDisposable = CompositeDisposable()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,14 +57,7 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
-    override protected fun onDestroy() {
-        disposables.dispose();
-        super.onDestroy();
-    }
 
-    private fun subscribe(s: Disposable) {
-        disposables.add(s)
-    }
 
 
     /**

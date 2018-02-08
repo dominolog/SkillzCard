@@ -7,4 +7,6 @@ object Model {
     data class LoginResult(val query: Query)
     data class Query(val searchinfo: SearchInfo)
     data class SearchInfo(val totalhits: Int)
+
+    data class PopupResult(val query: Query)
 }
