@@ -3,9 +3,8 @@ package com.example.cubesoft.skillzcard.activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.design.widget.TextInputEditText
-import android.support.v7.app.AppCompatActivity
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.AdapterView
@@ -35,6 +34,8 @@ class PopupActivity : BaseActivity(), OnItemSelectedListener {
 
     private var popDef: PopupDefinition? = null
 
+    private val DEFAULT_UNIT: String = "EU";
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_popup)
@@ -43,7 +44,7 @@ class PopupActivity : BaseActivity(), OnItemSelectedListener {
         val gson = Gson();
         popDef = gson.fromJson<com.example.cubesoft.skillzcard.model.PopupDefinition>(readIos(resources.assets.open("testPopup.json")),
                 PopupDefinition::class.java)
-        setupFields("EU");
+        setupFields(DEFAULT_UNIT);
 
         save.setOnClickListener { view ->
             onSave();
@@ -55,11 +56,51 @@ class PopupActivity : BaseActivity(), OnItemSelectedListener {
 
     private fun onSave() {
 
-        doSave();
+        val selectedUnit = unit.selectedItem;
+
+        var error = false;
+        val values = HashMap<String, String>();
+        var i =0;
+        for (field in popDef!!.fields) {
+            val input = inputs.getChildAt(i++).findViewById<TextInputEditText>(R.id.input);
+            var value = input.text.toString();
+            if (!checkFieldValue(value)) {
+                error = true;
+                input.setError("Invalid value!")
+                input.requestFocus()
+                break;
+            }
+
+            if (!DEFAULT_UNIT.equals(selectedUnit)) {
+                // perform conversion
+                value = convert(value, popDef!!.units.get(field.value.unit), selectedUnit)
+            }
+
+            values.put(field.key, value);
+        }
+
+        if (!error) {
+            doSave(values);
+        }
 
     }
 
-    private fun doSave(values: List<String> ) {
+    private fun convert(value: String, unitDefinition: PopupDefinition.Unit, selectedUnit: Any): String {
+        for (unitDef in unitDefinition.unitDefinition) {
+            if ( unitDef.name.equals(selectedUnit)) {
+
+                return value;
+                //value * unitDef.unitConversion.get(0).
+            }
+        }
+        return "";
+    }
+
+    private fun checkFieldValue(value: String): Boolean {
+        return !TextUtils.isEmpty(value) && TextUtils.isDigitsOnly(value);
+    }
+
+    private fun doSave(values: Map<String, String> ) {
         subscribe(webService.popup(values)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

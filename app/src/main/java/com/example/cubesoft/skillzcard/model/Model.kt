@@ -9,4 +9,6 @@ object Model {
     data class SearchInfo(val totalhits: Int)
 
     data class PopupResult(val query: Query)
+    data class LoginRequest(val username: String, val password: String)
+
 }

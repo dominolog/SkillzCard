@@ -2,6 +2,7 @@ package com.example.cubesoft.skillzcard.api
 
 import com.example.cubesoft.skillzcard.model.Model
 import io.reactivex.Observable
+import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query
@@ -11,13 +12,12 @@ import retrofit2.http.Query
  */
 interface ExampleWebService {
     @POST("login")
-    public fun login(@Query("email") email: String,
-                      @Query("password") password: String):
+    public fun login(@Body request: Model.LoginRequest):
             Observable<Model.LoginResult>
 
 
     @POST("popup")
-    public fun popup(@Query("values") email: List<String>):
+    public fun popup(@Body values: Map<String, String>):
             Observable<Model.PopupResult>
 
 }

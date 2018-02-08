@@ -109,7 +109,7 @@ class LoginActivity : BaseActivity() {
     }
 
     private fun doLogin(emailStr: String, passwordStr: String) {
-        subscribe(webService.login(emailStr, passwordStr)
+        subscribe(webService.login(Model.LoginRequest(emailStr, passwordStr))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe({ showProgress(true) })
