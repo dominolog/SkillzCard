@@ -1,0 +1,82 @@
+{
+  "fields": {
+    "height": {
+      "@unit": "0"
+    },
+    "bust": {
+      "@unit": "0"
+    },
+    "hip": {
+      "@unit": "0"
+    },
+    "waist": {
+      "@unit": "0"
+    },
+    "weight": {
+      "@unit": "1"
+    }
+  },
+  "units": [
+    {
+      "@id": "0",
+      "@description": "lengths",
+      "unit-definition": [
+        {
+          "@name": "EU",
+          "@std": "CM",
+          "unit-conversion": [
+            {
+              "@convToInch": "cm * 0.39"
+            },
+            {
+              "@convFromInch": "inch * 2.54"
+            }
+          ]
+        },
+        {
+          "@name": "US",
+          "@std": "inch",
+          "unit-conversion": [
+            {
+              "@convToCM": "inch * 2.54"
+            },
+            {
+              "@convFromCM": "cm * 0.39"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "@id": "1",
+      "@description": "weights",
+      "unit-definition": [
+        {
+          "@name": "EU",
+          "@std": "kg",
+          "unit-conversion": [
+            {
+              "@convToLbs": "kg / 0.45359237"
+            },
+            {
+              "@convFromLbs": "lbs * 0.45359237"
+            }
+          ]
+        },
+        {
+          "@name": "US",
+          "@std": "lbs",
+          "unit-conversion": [
+            {
+              "@convToKg": "lbs * 0.45359237"
+            },
+            {
+              "@convFromKg": "kg / 0.45359237"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+

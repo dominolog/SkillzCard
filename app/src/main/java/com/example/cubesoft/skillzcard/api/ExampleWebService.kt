@@ -11,7 +11,7 @@ import retrofit2.http.Query
  */
 interface ExampleWebService {
     @POST("login")
-    fun login(@Query("email") email: String,
+    public fun login(@Query("email") email: String,
                       @Query("password") password: String):
             Observable<Model.LoginResult>
 

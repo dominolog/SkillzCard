@@ -1,6 +1,7 @@
 package com.example.cubesoft.skillzcard
 
 import android.app.Application
+import android.content.Context
 import com.example.cubesoft.skillzcard.api.ExampleWebService
 import dagger.Module
 import dagger.Provides
@@ -19,11 +20,11 @@ class AppModule(private val app: Application) {
 
     @Provides
     @Singleton
-    fun provideApplication() = app
+    fun provideApplicationContext(): Context = app;
 
     @Provides
     @Singleton
-    fun providesHttpClient(): OkHttpClient? {
+    fun providesHttpClient(): OkHttpClient {
         val interceptor = HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         val client = OkHttpClient.Builder().addInterceptor(interceptor).build();
@@ -33,15 +34,16 @@ class AppModule(private val app: Application) {
 
     @Provides
     @Singleton
-    fun providesWebService(): ExampleWebService? {
+    fun providesWebService(client: OkHttpClient ): ExampleWebService {
         val retrofit = Retrofit.Builder()
                 .addCallAdapterFactory(
                         RxJava2CallAdapterFactory.create())
                 .addConverterFactory(
                         GsonConverterFactory.create())
                 .baseUrl(BuildConfig.WEB_SERVICE_URL)
+                .client(client)
                 .build()
-        return return retrofit.create(ExampleWebService::class.java);
+        return retrofit.create(ExampleWebService::class.java);
     }
 
 }

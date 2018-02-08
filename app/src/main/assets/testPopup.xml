@@ -1,0 +1,35 @@
+<popup>
+	<fields>
+		<height unit=0/>
+		<bust unit=0/>
+		<hip unit=0/>
+		<waist unit=0/>
+		<weight unit=1/>
+	</fields>
+
+	<units>
+		<unit id=0 description="lengths">
+			<unit-definition name="EU" std="CM">
+				<unit-conversion convToInch="cm * 0.39"/>
+				<unit-conversion convFromInch="inch * 2.54 "/>
+			</unit-definition>
+			<unit-definition name="US" std="inch">
+				<unit-conversion convToCM="inch * 2.54"/>
+				<unit-conversion convFromCM="cm * 0.39"/>
+			</unit-definition>
+		</unit>
+
+		<unit id=1 description="weights">
+			<unit-definition name="EU" std="kg">
+				<unit-conversion convToLbs="kg / 0.45359237"/>
+				<unit-conversion convFromLbs="lbs * 0.45359237 "/>
+			</unit-definition>
+			<unit-definition name="US" std="lbs">
+				<unit-conversion convToKg="lbs * 0.45359237"/>
+				<unit-conversion convFromKg="kg / 0.45359237"/>
+			</unit-definition>
+		</unit>
+
+	</units>
+
+</popup>
